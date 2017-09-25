@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mDustTextView;
     private ImageView mCodyImageView;
     private WeatherUtil mWeatherUtil;
+    private double mTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
                         + response.body().getWeather().get(0).getIcon() + ".png";
                 Glide.with(MainActivity.this).load(url).into(mWeatherImageView);
                 mWeatherTextView.setText("날씨 : " + response.body().getWeather().get(0).getDescription());
-                mTempTextView.setText("기온 : " + response.body().getMain().getTemp());
+
+                mTemp = response.body().getMain().getTemp();
+                mTempTextView.setText("기온 : " + mTemp);
 
             }
 
@@ -80,6 +83,28 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    // 기온별로 옷차림 메세지 등 변경...
+    // 이미지 없음.
+    private void setWeatherCody() {
+        if (mTemp <= 5) { // 온도가 5도 이하
+            mCodyImageView.setImageResource(R.drawable.cody5);
+        } else if (5 < mTemp && mTemp <= 9) {
+            mCodyImageView.setImageResource(R.drawable.cody9);
+        } else if (9 < mTemp && mTemp <= 11) {
+            mCodyImageView.setImageResource(R.drawable.cody11);
+        } else if (11 < mTemp && mTemp <= 16) {
+            mCodyImageView.setImageResource(R.drawable.cody16);
+        } else if (16 < mTemp && mTemp <= 19) {
+            mCodyImageView.setImageResource(R.drawable.cody19);
+        } else if (19 < mTemp && mTemp <= 22) {
+            mCodyImageView.setImageResource(R.drawable.cody22);
+        } else if (22 < mTemp && mTemp < 27) {
+            mCodyImageView.setImageResource(R.drawable.cody26);
+        } else {
+            mCodyImageView.setImageResource(R.drawable.cody27);
+        }
     }
 
 }
