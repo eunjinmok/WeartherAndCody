@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.eunjin.weatherandcody.model.current.CurrentWeather;
+import com.eunjin.weatherandcody.model.uv.CurrentUV;
 import com.eunjin.weatherandcody.retrofit.WeatherUtil;
 
 import retrofit2.Call;
@@ -46,17 +47,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void search(String cityName) {
+
+        // 현재 날씨와 현재 기온을 가져온다
         mWeatherUtil.getApiService().getCurrentWeather(cityName).enqueue(new Callback<CurrentWeather>() {
             @Override
             public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
 
-                String url = "http://openweathermap.org/img/w/" + response.body().getWeather().get(0).getIcon() + ".png";
+                String url = "http://openweathermap.org/img/w/"
+                        + response.body().getWeather().get(0).getIcon() + ".png";
                 Glide.with(MainActivity.this).load(url).into(mWeatherImageView);
                 mWeatherTextView.setText("날씨 : " + response.body().getWeather().get(0).getDescription());
                 mTempTextView.setText("기온 : " + response.body().getMain().getTemp());
-                mUvTextView.setText("자외선 : ");
-                mDustTextView.setText("미세먼지 : ");
-
 
             }
 
@@ -65,5 +66,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        // 현재 자외선 지수를 가져온다.
+        // 현재 값은 서울시 위도 경도로 임시로 값을 넣음
+        mWeatherUtil.getApiService().getCurrentUV(37.56,126.97).enqueue(new Callback<CurrentUV>() {
+            @Override
+            public void onResponse(Call<CurrentUV> call, Response<CurrentUV> response) {
+                mUvTextView.setText("자외선 : " + response.body().getValue());
+            }
+
+            @Override
+            public void onFailure(Call<CurrentUV> call, Throwable t) {
+
+            }
+        });
     }
+
 }

@@ -2,6 +2,7 @@ package com.eunjin.weatherandcody.retrofit;
 
 
 import com.eunjin.weatherandcody.model.current.CurrentWeather;
+import com.eunjin.weatherandcody.model.uv.CurrentUV;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,4 +18,7 @@ public interface WeatherApi {
 
     @GET("weather?lang=kr&units=metric&appid=" + APP_ID)
     Call<CurrentWeather> getCurrentWeather(@Query("q") String cityName);
+
+    @GET("uvi?&appid=" + APP_ID)
+    Call<CurrentUV> getCurrentUV (@Query("lat") double lat, @Query("lon") double lon);
 }
