@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String intentCityName = intent.getStringExtra("cityName");
-        CurrentWeather currentWeather = (CurrentWeather) intent.getSerializableExtra("we");
         search(intentCityName);
 
     }
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     mTempTextView.setText("기온 : " + mTemp);
                     setWeatherCody(mTemp);
                 } else {
-                    Toast.makeText(MainActivity.this, "니 잘못", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "이름이 잘 못 입력되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
 

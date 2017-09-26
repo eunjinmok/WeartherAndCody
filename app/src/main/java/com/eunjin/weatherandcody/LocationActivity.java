@@ -22,11 +22,9 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     public void onClickedEnterButton(View view) {
-//        if (citynameEditView.getText().toString().contains()) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("cityName", citynameEditView.getText().toString());
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra("cityName", citynameEditView.getText().toString());
 
-            startActivity(intent);
-        }
+        startActivity(intent);
     }
-//}
+}
