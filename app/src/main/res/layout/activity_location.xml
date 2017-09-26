@@ -16,7 +16,8 @@
             android:id="@+id/cityname_edit_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="도시를 입력하세요" />
+            android:inputType="textEmailSubject"
+            android:hint="영어로 도시를 입력하세요" />
 
         <Button
             android:onClick="onClickedEnterButton"

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String intentCityName = intent.getStringExtra("cityName");
-
+        CurrentWeather currentWeather = (CurrentWeather) intent.getSerializableExtra("we");
         search(intentCityName);
 
     }
@@ -53,15 +53,19 @@ public class MainActivity extends AppCompatActivity {
         mWeatherUtil.getApiService().getCurrentWeather(cityName).enqueue(new Callback<CurrentWeather>() {
             @Override
             public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
+                if (response.body() != null) {
+                    String url = "http://openweathermap.org/img/w/"
+                            + response.body().getWeather().get(0).getIcon() + ".png";
+                    Glide.with(MainActivity.this).load(url).into(mWeatherImageView);
+                    mWeatherTextView.setText("날씨 : " + response.body().getWeather().get(0).getDescription());
 
-                String url = "http://openweathermap.org/img/w/"
-                        + response.body().getWeather().get(0).getIcon() + ".png";
-                Glide.with(MainActivity.this).load(url).into(mWeatherImageView);
-                mWeatherTextView.setText("날씨 : " + response.body().getWeather().get(0).getDescription());
-
-                mTemp = response.body().getMain().getTemp();
-                mTempTextView.setText("기온 : " + mTemp);
-                setWeatherCody(mTemp);
+                    mTemp = response.body().getMain().getTemp();
+                    mTempTextView.setText("기온 : " + mTemp);
+                    setWeatherCody(mTemp);
+                } else {
+                    Toast.makeText(MainActivity.this, "니 잘못", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
 
             }
 

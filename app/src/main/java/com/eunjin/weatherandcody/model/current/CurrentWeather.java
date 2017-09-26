@@ -1,9 +1,10 @@
 
 package com.eunjin.weatherandcody.model.current;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CurrentWeather {
+public class CurrentWeather implements Serializable {
 
     private Coord coord;
     private List<Weather> weather = null;
