@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        setWeatherCody();
     }
 
     // 기온별로 옷차림 메세지 등 변경...
@@ -91,17 +93,17 @@ public class MainActivity extends AppCompatActivity {
         if (mTemp <= 5) { // 온도가 5도 이하
             mCodyImageView.setImageResource(R.drawable.cody5);
         } else if (5 < mTemp && mTemp <= 9) {
-            mCodyImageView.setImageResource(R.drawable.cody9);
+            mCodyImageView.setImageResource(R.drawable.cody6);
         } else if (9 < mTemp && mTemp <= 11) {
-            mCodyImageView.setImageResource(R.drawable.cody11);
+            mCodyImageView.setImageResource(R.drawable.cody10);
         } else if (11 < mTemp && mTemp <= 16) {
-            mCodyImageView.setImageResource(R.drawable.cody16);
+            mCodyImageView.setImageResource(R.drawable.cody12);
         } else if (16 < mTemp && mTemp <= 19) {
-            mCodyImageView.setImageResource(R.drawable.cody19);
+            mCodyImageView.setImageResource(R.drawable.cody17);
         } else if (19 < mTemp && mTemp <= 22) {
-            mCodyImageView.setImageResource(R.drawable.cody22);
+            mCodyImageView.setImageResource(R.drawable.cody20);
         } else if (22 < mTemp && mTemp < 27) {
-            mCodyImageView.setImageResource(R.drawable.cody26);
+            mCodyImageView.setImageResource(R.drawable.cody23);
         } else {
             mCodyImageView.setImageResource(R.drawable.cody27);
         }
