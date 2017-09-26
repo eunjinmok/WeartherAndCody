@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.eunjin.weatherandcody.model.current.CurrentWeather;
-import com.eunjin.weatherandcody.model.uv.CurrentUV;
 import com.eunjin.weatherandcody.retrofit.WeatherUtil;
 
 import retrofit2.Call;
@@ -61,48 +61,35 @@ public class MainActivity extends AppCompatActivity {
 
                 mTemp = response.body().getMain().getTemp();
                 mTempTextView.setText("기온 : " + mTemp);
+                setWeatherCody(mTemp);
 
             }
 
             @Override
             public void onFailure(Call<CurrentWeather> call, Throwable t) {
-
+                Toast.makeText(MainActivity.this, "에러", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // 현재 자외선 지수를 가져온다.
-        // 현재 값은 서울시 위도 경도로 임시로 값을 넣음
-        mWeatherUtil.getApiService().getCurrentUV(37.56,126.97).enqueue(new Callback<CurrentUV>() {
-            @Override
-            public void onResponse(Call<CurrentUV> call, Response<CurrentUV> response) {
-                mUvTextView.setText("자외선 : " + response.body().getValue());
-            }
 
-            @Override
-            public void onFailure(Call<CurrentUV> call, Throwable t) {
-
-            }
-        });
-
-        setWeatherCody();
     }
 
     // 기온별로 옷차림 메세지 등 변경...
     // 이미지 없음.
-    private void setWeatherCody() {
-        if (mTemp <= 5) { // 온도가 5도 이하
+    private void setWeatherCody(double temp) {
+        if (temp <= 5) { // 온도가 5도 이하
             mCodyImageView.setImageResource(R.drawable.cody5);
-        } else if (5 < mTemp && mTemp <= 9) {
+        } else if (5.0 < temp && temp <= 9.0) {
             mCodyImageView.setImageResource(R.drawable.cody6);
-        } else if (9 < mTemp && mTemp <= 11) {
+        } else if (9.0 < temp && temp <= 11.0) {
             mCodyImageView.setImageResource(R.drawable.cody10);
-        } else if (11 < mTemp && mTemp <= 16) {
+        } else if (11.0 < temp && temp <= 16.0) {
             mCodyImageView.setImageResource(R.drawable.cody12);
-        } else if (16 < mTemp && mTemp <= 19) {
+        } else if (16.0 < temp && temp <= 19.0) {
             mCodyImageView.setImageResource(R.drawable.cody17);
-        } else if (19 < mTemp && mTemp <= 22) {
+        } else if (19.0 < temp && temp <= 22.0) {
             mCodyImageView.setImageResource(R.drawable.cody20);
-        } else if (22 < mTemp && mTemp < 27) {
+        } else if (22.0 < temp && temp < 27.0) {
             mCodyImageView.setImageResource(R.drawable.cody23);
         } else {
             mCodyImageView.setImageResource(R.drawable.cody27);
