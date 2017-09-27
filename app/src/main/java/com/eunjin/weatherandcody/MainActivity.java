@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.eunjin.weatherandcody.model.current.CurrentWeather;
+import com.eunjin.weatherandcody.model.uv.CurrentUV;
 import com.eunjin.weatherandcody.retrofit.WeatherUtil;
 
 import retrofit2.Call;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 현재 날씨와 현재 기온을 가져온다
         mWeatherUtil.getApiService().getCurrentWeather(cityName).enqueue(new Callback<CurrentWeather>() {
-            @Override
+            @Override // 현재 날씨 불러오기 성공
             public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
                 if (response.body() != null) {
                     String url = "http://openweathermap.org/img/w/"
@@ -61,20 +62,33 @@ public class MainActivity extends AppCompatActivity {
                     mTemp = response.body().getMain().getTemp();
                     mTempTextView.setText("기온 : " + mTemp);
                     setWeatherCody(mTemp);
+
+                    // 현재 자외선 지수를 가져온다.
+                    mWeatherUtil.getApiService().getCurrentUV(response.body().getCoord().getLat(),
+                            response.body().getCoord().getLon()).enqueue(new Callback<CurrentUV>() {
+                        @Override // 현재 자외선 지수 불러오기 성공
+                        public void onResponse(Call<CurrentUV> call, Response<CurrentUV> response) {
+                            mUvTextView.setText("자외선 : " + response.body().getValue());
+                        }
+
+                        @Override // 현재 자외선 지수 불러오기 실패
+                        public void onFailure(Call<CurrentUV> call, Throwable t) {
+                            Toast.makeText(MainActivity.this, "에러", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
-                    Toast.makeText(MainActivity.this, "이름이 잘 못 입력되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "도시이름을 다시 확인해주세요~", Toast.LENGTH_SHORT).show();
                     finish();
                 }
 
             }
 
-            @Override
+            @Override// 현재 날씨 불러오기 실패
             public void onFailure(Call<CurrentWeather> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "에러", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     // 기온별로 옷차림 메세지 등 변경...
@@ -100,3 +114,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+
