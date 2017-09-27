@@ -113,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 기온별 코멘트
+
+    //private void
+
 }
 
 
